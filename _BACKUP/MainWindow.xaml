@@ -1,0 +1,50 @@
+﻿<Window x:Class="Destroyer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Destroyer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="400" WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" Background="{x:Null}">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="ThumbColor" Color="Green"/>
+        <Style x:Key="CircleThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse x:Name="ThumbEllipse" Fill="{DynamicResource ThumbColor}"></Ellipse>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Canvas Margin="0">
+            <Rectangle x:Name="Stick" Fill="#83808080" Height="8" Canvas.Left="97.665" Canvas.Top="244" Width="72" RadiusY="4" RadiusX="4" RenderTransformOrigin="0,0.5" Panel.ZIndex="20"/>
+            <Thumb x:Name="CircleThumb" Style="{DynamicResource CircleThumb}" Canvas.Left="144.665" Canvas.Top="223" Width="50" Height="50" DragDelta="Thumb_DragDelta" Panel.ZIndex="20" DragCompleted="CircleThumb_DragCompleted"/>
+            <Ellipse x:Name="CenterOfRotate" Fill="Gray" Height="24" Canvas.Left="85.665" Canvas.Top="236" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" MouseDown="StartDragWindow" Panel.ZIndex="20"/>
+            <TextBlock x:Name="Data" Height="66.667" Canvas.Left="260.666" Text="DATA" Width="139.334" FontWeight="Bold" FontSize="14" Background="#80FFFFFF" IsHitTestVisible="False"/>
+            <Rectangle x:Name="LockSlider" Height="6" Canvas.Left="111.333" Canvas.Top="161.333" Width="80" Fill="#FF005100" MouseDown="StartDragWindow"/>
+            <Path Fill="#FF005100" Canvas.Left="81.333" Canvas.Top="161.333" MouseDown="StartDragWindow">
+                <Path.Data>
+                    <CombinedGeometry GeometryCombineMode="Exclude">
+                        <CombinedGeometry.Geometry1>
+                            <RectangleGeometry Rect="0,0,185,105"/>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <RectangleGeometry Rect="110,0,62,68"/>
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </Path.Data>
+            </Path>
+            <Rectangle x:Name="Glass" Fill="#19005100" Height="62" Canvas.Left="191.333" Canvas.Top="167.333" Width="62" AllowDrop="True" Drop="Rectangle_Drop"/>
+            <local:CircularHandle Height="52.666" Canvas.Left="266.333" Canvas.Top="167.333" Width="110.666"/>
+
+
+        </Canvas>
+    </Grid>
+</Window>

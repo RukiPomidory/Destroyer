@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Destroyer.CircularHandle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Destroyer"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="96.333">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ThumbColor" Color="Green"/>
+        <Style x:Key="CircleThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse x:Name="ThumbEllipse" Fill="{DynamicResource ThumbColor}"></Ellipse>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Canvas Margin="0">
+            <Rectangle x:Name="Stick" Fill="#83808080" Height="8" Width="72" RadiusY="4" RadiusX="4" RenderTransformOrigin="0,0.5" Panel.ZIndex="20" Canvas.Top="-4"/>
+            <Thumb x:Name="CircleThumb" Style="{DynamicResource CircleThumb}" Canvas.Left="46" Width="50" Height="50" DragDelta="Thumb_DragDelta" DragCompleted="Thumb_DragCompleted" Panel.ZIndex="20" Canvas.Top="-25" Cursor="Hand" DragStarted="CircleThumb_DragStarted"/>
+            <Ellipse x:Name="CenterOfRotate" Fill="#FF535353" Height="24" Canvas.Left="-12" Canvas.Top="-12" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="20"/>
+            <Ellipse x:Name="CenterOfRotate_Copy" Fill="Gray" Height="18" Canvas.Left="-9" Canvas.Top="-9" Width="18" VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="20"/>
+        </Canvas>
+    </Grid>
+</UserControl>
