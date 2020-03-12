@@ -90,13 +90,16 @@ namespace Destroyer
 
         private void CheckVersion()
         {
-            new Task(() =>
+            var task = new Task(() =>
             {
                 try
                 {
                     using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
                     {
-                        mgr.Result.UpdateApp().Wait(TimeSpan.FromMinutes(2));
+                        Closed += (a, e) => { try { mgr.Dispose(); } catch { } };
+                        var manager = mgr.Result;
+                        Closed += (a, e) => { try { manager.Dispose(); } catch { } };
+                        manager.UpdateApp().Wait(TimeSpan.FromMinutes(2));
                     }
 
                 }
@@ -104,7 +107,10 @@ namespace Destroyer
                 {
                     Dispatcher.Invoke(() => MessageBox.Show(exc.Message + "\n\n" + exc.StackTrace, "Ошибка обновления!"));
                 }
-            }).Start();
+            });
+
+            Closed += (a, e) => { try { task.Dispose(); } catch { } };
+            task.Start();
             
 
             //using (var mgr = new UpdateManager("C:\\Releases1"))
@@ -124,6 +130,11 @@ namespace Destroyer
             }
             else
             {
+                if (CloseButton.IsPressed)
+                {
+                    return;
+                }
+
                 DestroyHandle.Angle -= 0.1;
             }
 
@@ -250,5 +261,10 @@ namespace Destroyer
         }
 
         static double millis() => CircularHandle.millis();
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

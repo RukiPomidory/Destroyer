@@ -20,6 +20,65 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="30" BorderThickness="0.5" RenderTransformOrigin="0.5,0.5">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FF87120D"/>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="#FF620905"/>
+                                </Border.BorderBrush>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold"/>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#FF620905"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#FF9D2722"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF620905" Offset="1"/>
+                                            <GradientStop Color="#FFEF9590" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -27,7 +86,7 @@
             <TextBlock x:Name="Data" Height="66.667" Canvas.Left="10" Text="DATA" Width="139.334" FontWeight="Bold" FontSize="14" Background="#80FFFFFF" IsHitTestVisible="False" Canvas.Top="10" Panel.ZIndex="1" Visibility="Collapsed"/>
             <Rectangle x:Name="LockSlider" Height="6" Canvas.Left="134" Canvas.Top="50" Width="80" Fill="#FF005100" MouseDown="StartDragWindow"/>
 
-            <Path Fill="#FF510000" Canvas.Left="104" Canvas.Top="50" MouseDown="StartDragWindow" Panel.ZIndex="1">
+            <Path Fill="#FF005100" Canvas.Left="104" Canvas.Top="50" MouseDown="StartDragWindow" Panel.ZIndex="1">
                 <Path.Data>
                     <CombinedGeometry GeometryCombineMode="Exclude">
                         <CombinedGeometry.Geometry1>
@@ -42,9 +101,67 @@
 
             <Rectangle x:Name="Glass" Fill="#26005100" Height="62" Canvas.Left="214" Canvas.Top="56" Width="62" AllowDrop="True" Drop="Rectangle_Drop"/>
             <local:CircularHandle x:Name="LockHandle" Height="12" Canvas.Left="122" Canvas.Top="137" Width="65"  MouseDown="StartDragWindow" Panel.ZIndex="2"/>
-            <local:CircularHandle x:Name="DestroyHandle" Height="12" Canvas.Left="289" Canvas.Top="101" Width="70" Panel.ZIndex="-1" HandleRadius="11" StickThickness="5" Angle="5" StickLength="70" MouseDown="StartDragWindow"/>
+            <local:CircularHandle x:Name="DestroyHandle" Height="12" Canvas.Left="289" Canvas.Top="101" Width="70" Panel.ZIndex="-1" HandleRadius="11" StickThickness="5" Angle="5" StickLength="70" MouseDown="StartDragWindow" RenderTransformOrigin="0,0"/>
             <Image x:Name="FileImage" Height="50" Canvas.Left="220" Canvas.Top="62" Width="50" Source="attach.png" Panel.ZIndex="-1"/>
             <TextBlock x:Name="VersionTitle" Height="25" Canvas.Left="104" Text="10.05.15.20" Canvas.Top="58" Width="110" FontSize="20" Panel.ZIndex="1" TextAlignment="Center" Foreground="#FF135713"/>
+            <Button x:Name="CloseButton" Style="{DynamicResource CloseButton}" Height="22" Canvas.Left="296.75" Canvas.Top="22.583" Width="22" Panel.ZIndex="-2" Click="CloseButton_Click">
+                <Button.Content>
+                    <Image x:Name="closeImage" Source="add.png" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="45"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Button.Content>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="135">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseInOut"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="16"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="15"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="16"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="15"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="45">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseInOut"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="16"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="15"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="closeImage">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="16"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="15"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
 
 
         </Canvas>
