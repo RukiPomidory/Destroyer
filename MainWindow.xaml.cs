@@ -90,11 +90,19 @@ namespace Destroyer
 
         private void CheckVersion()
         {
-            new Task(async () =>
+            new Task(() =>
             {
-                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
+                try
                 {
-                    await mgr.Result.UpdateApp();
+                    using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
+                    {
+                        mgr.Result.UpdateApp().Wait(TimeSpan.FromMinutes(2));
+                    }
+
+                }
+                catch (Exception exc)
+                {
+                    Dispatcher.Invoke(() => MessageBox.Show(exc.Message + "\n\n" + exc.StackTrace, "Ошибка обновления!"));
                 }
             }).Start();
             

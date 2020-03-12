@@ -27,7 +27,7 @@
             <TextBlock x:Name="Data" Height="66.667" Canvas.Left="10" Text="DATA" Width="139.334" FontWeight="Bold" FontSize="14" Background="#80FFFFFF" IsHitTestVisible="False" Canvas.Top="10" Panel.ZIndex="1" Visibility="Collapsed"/>
             <Rectangle x:Name="LockSlider" Height="6" Canvas.Left="134" Canvas.Top="50" Width="80" Fill="#FF005100" MouseDown="StartDragWindow"/>
 
-            <Path Fill="#FF005100" Canvas.Left="104" Canvas.Top="50" MouseDown="StartDragWindow" Panel.ZIndex="1">
+            <Path Fill="#FF510000" Canvas.Left="104" Canvas.Top="50" MouseDown="StartDragWindow" Panel.ZIndex="1">
                 <Path.Data>
                     <CombinedGeometry GeometryCombineMode="Exclude">
                         <CombinedGeometry.Geometry1>
