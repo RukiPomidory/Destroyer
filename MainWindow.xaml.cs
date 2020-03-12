@@ -88,13 +88,16 @@ namespace Destroyer
             CheckVersion();
         }
 
-        private async void CheckVersion()
+        private void CheckVersion()
         {
-            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
+            new Task(async () =>
             {
-                var res = mgr.Result;
-                var entry = await res.UpdateApp();
-            }
+                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
+                {
+                    await mgr.Result.UpdateApp();
+                }
+            }).Start();
+            
 
             //using (var mgr = new UpdateManager("C:\\Releases1"))
             //{
