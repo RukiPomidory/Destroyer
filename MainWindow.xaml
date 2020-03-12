@@ -26,7 +26,7 @@
         <Canvas Margin="0">
             <TextBlock x:Name="Data" Height="66.667" Canvas.Left="10" Text="DATA" Width="139.334" FontWeight="Bold" FontSize="14" Background="#80FFFFFF" IsHitTestVisible="False" Canvas.Top="10" Panel.ZIndex="1" Visibility="Collapsed"/>
             <Rectangle x:Name="LockSlider" Height="6" Canvas.Left="134" Canvas.Top="50" Width="80" Fill="#FF005100" MouseDown="StartDragWindow"/>
-            
+
             <Path Fill="#FF005100" Canvas.Left="104" Canvas.Top="50" MouseDown="StartDragWindow" Panel.ZIndex="1">
                 <Path.Data>
                     <CombinedGeometry GeometryCombineMode="Exclude">
@@ -39,11 +39,12 @@
                     </CombinedGeometry>
                 </Path.Data>
             </Path>
-            
+
             <Rectangle x:Name="Glass" Fill="#26005100" Height="62" Canvas.Left="214" Canvas.Top="56" Width="62" AllowDrop="True" Drop="Rectangle_Drop"/>
             <local:CircularHandle x:Name="LockHandle" Height="12" Canvas.Left="122" Canvas.Top="137" Width="65"  MouseDown="StartDragWindow" Panel.ZIndex="2"/>
             <local:CircularHandle x:Name="DestroyHandle" Height="12" Canvas.Left="289" Canvas.Top="101" Width="70" Panel.ZIndex="-1" HandleRadius="11" StickThickness="5" Angle="5" StickLength="70" MouseDown="StartDragWindow"/>
             <Image x:Name="FileImage" Height="50" Canvas.Left="220" Canvas.Top="62" Width="50" Source="attach.png" Panel.ZIndex="-1"/>
+            <TextBlock x:Name="VersionTitle" Height="25" Canvas.Left="104" Text="10.05.15.20" Canvas.Top="58" Width="110" FontSize="20" Panel.ZIndex="1" TextAlignment="Center" Foreground="#FF135713"/>
 
 
         </Canvas>

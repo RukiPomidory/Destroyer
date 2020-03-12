@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Net;
 using Squirrel;
+using System.Reflection;
 
 namespace Destroyer
 {
@@ -48,6 +49,13 @@ namespace Destroyer
         {
             InitializeComponent();
 
+            string assemblyVersion = Assembly.GetAssembly(typeof(MainWindow)).GetName().Version.ToString();
+            if (assemblyVersion.Substring(assemblyVersion.Length - 2).Equals(".0"))
+            {
+                assemblyVersion = assemblyVersion.Substring(0, assemblyVersion.Length - 2);
+            }
+            VersionTitle.Text = "v" + assemblyVersion;
+
             animationTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(10)
@@ -77,21 +85,22 @@ namespace Destroyer
                 Directory.CreateDirectory(blackHolePath);
             }
 
-            //sparkle = new Sparkle(appcastUrl);
-            //sparkle.CheckForUpdatesAtUserRequest();
+            CheckVersion();
+        }
 
-            //AutoUpdater.RunUpdateAsAdmin = true;
-            //AutoUpdater.AppCastURL = autoUpdater;
-            //AutoUpdater.ShowUpdateForm();
-            //AutoUpdater.DownloadPath = 
-            //AutoUpdater.Start(autoUpdater);
+        private async void CheckVersion()
+        {
+            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RukiPomidory/Destroyer"))
+            {
+                var res = mgr.Result;
+                var entry = await res.UpdateApp();
+            }
 
-            //using (var mgr = new UpdateManager("C:\\Projects\\MyApp\\Releases"))
+            //using (var mgr = new UpdateManager("C:\\Releases1"))
             //{
-            //    //mgr.
+            //    var x = await mgr.UpdateApp();
+
             //}
-
-
         }
 
         private void AnimationTimer_Tick(object sender, EventArgs e)
